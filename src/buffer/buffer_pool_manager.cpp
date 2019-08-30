@@ -10,18 +10,18 @@ namespace cmudb {
 BufferPoolManager::BufferPoolManager(size_t pool_size,
                                      DiskManager *disk_manager,
                                      LogManager *log_manager)
-    : pool_size_(pool_size), disk_manager_(disk_manager),
-      log_manager_(log_manager) {
-  // a consecutive memory space for buffer pool
-  pages_ = new Page[pool_size_];
-  page_table_ = new ExtendibleHash<page_id_t, Page *>(BUCKET_SIZE);
-  replacer_ = new LRUReplacer<Page *>;
-  free_list_ = new std::list<Page *>;
+        : pool_size_(pool_size), disk_manager_(disk_manager),
+          log_manager_(log_manager) {
+    // a consecutive memory space for buffer pool
+    pages_ = new Page[pool_size_];
+    page_table_ = new ExtendibleHash<page_id_t, Page *>(BUCKET_SIZE);
+    replacer_ = new LRUReplacer<Page *>;
+    free_list_ = new std::list<Page *>;
 
-  // put all the pages into free list
-  for (size_t i = 0; i < pool_size_; ++i) {
-    free_list_->push_back(&pages_[i]);
-  }
+    // put all the pages into free list
+    for (size_t i = 0; i < pool_size_; ++i) {
+        free_list_->push_back(&pages_[i]);
+    }
 }
 
 /*
@@ -29,10 +29,10 @@ BufferPoolManager::BufferPoolManager(size_t pool_size,
  * WARNING: Do Not Edit This Function
  */
 BufferPoolManager::~BufferPoolManager() {
-  delete[] pages_;
-  delete page_table_;
-  delete replacer_;
-  delete free_list_;
+    delete[] pages_;
+    delete page_table_;
+    delete replacer_;
+    delete free_list_;
 }
 
 /**
@@ -55,7 +55,7 @@ Page *BufferPoolManager::FetchPage(page_id_t page_id) { return nullptr; }
  * dirty flag of this page
  */
 bool BufferPoolManager::UnpinPage(page_id_t page_id, bool is_dirty) {
-  return false;
+    return false;
 }
 
 /*

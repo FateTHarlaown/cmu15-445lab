@@ -3,6 +3,7 @@
  * For range scan of b+ tree
  */
 #pragma once
+
 #include "page/b_plus_tree_leaf_page.h"
 
 namespace cmudb {
@@ -13,18 +14,18 @@ namespace cmudb {
 INDEX_TEMPLATE_ARGUMENTS
 class IndexIterator {
 public:
-  // you may define your own constructor based on your member variables
-  IndexIterator();
-  ~IndexIterator();
+    // you may define your own constructor based on your member variables
+    IndexIterator();
+    ~IndexIterator();
 
-  bool isEnd();
+    bool isEnd();
 
-  const MappingType &operator*();
+    const MappingType &operator*();
 
-  IndexIterator &operator++();
+    IndexIterator &operator++();
 
 private:
-  // add your own private member variables here
+    // add your own private member variables here
 };
 
 } // namespace cmudb

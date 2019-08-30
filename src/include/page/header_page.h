@@ -21,24 +21,25 @@ namespace cmudb {
 
 class HeaderPage : public Page {
 public:
-  void Init() { SetRecordCount(0); }
-  /**
-   * Record related
-   */
-  bool InsertRecord(const std::string &name, const page_id_t root_id);
-  bool DeleteRecord(const std::string &name);
-  bool UpdateRecord(const std::string &name, const page_id_t root_id);
+    void Init() { SetRecordCount(0); }
 
-  // return root_id if success
-  bool GetRootId(const std::string &name, page_id_t &root_id);
-  int GetRecordCount();
+    /**
+     * Record related
+     */
+    bool InsertRecord(const std::string &name, const page_id_t root_id);
+    bool DeleteRecord(const std::string &name);
+    bool UpdateRecord(const std::string &name, const page_id_t root_id);
+
+    // return root_id if success
+    bool GetRootId(const std::string &name, page_id_t &root_id);
+    int GetRecordCount();
 
 private:
-  /**
-   * helper functions
-   */
-  int FindRecord(const std::string &name);
+    /**
+     * helper functions
+     */
+    int FindRecord(const std::string &name);
 
-  void SetRecordCount(int record_count);
+    void SetRecordCount(int record_count);
 };
 } // namespace cmudb

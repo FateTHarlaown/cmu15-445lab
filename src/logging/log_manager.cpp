@@ -13,6 +13,7 @@ namespace cmudb {
  * larger LSN than persistent LSN)
  */
 void LogManager::RunFlushThread() {}
+
 /*
  * Stop and join the flush thread, set ENABLE_LOGGING = false
  */
@@ -40,7 +41,7 @@ void LogManager::StopFlushThread() {}
  */
 lsn_t LogManager::AppendLogRecord(LogRecord &log_record) {
 
-  return INVALID_LSN;
+    return INVALID_LSN;
 }
 
 } // namespace cmudb

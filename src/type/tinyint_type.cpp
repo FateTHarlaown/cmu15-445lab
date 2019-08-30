@@ -53,259 +53,259 @@ namespace cmudb {
 TinyintType::TinyintType() : IntegerParentType(TINYINT) {}
 
 bool TinyintType::IsZero(const Value &val) const {
-  return (val.value_.tinyint == 0);
+    return (val.value_.tinyint == 0);
 }
 
 Value TinyintType::Add(const Value &left, const Value &right) const {
-  assert(left.CheckInteger());
-  assert(left.CheckComparable(right));
-  if (left.IsNull() || right.IsNull())
-    return left.OperateNull(right);
+    assert(left.CheckInteger());
+    assert(left.CheckComparable(right));
+    if (left.IsNull() || right.IsNull())
+        return left.OperateNull(right);
 
-  TINYINT_MODIFY_FUNC(AddValue, +);
+    TINYINT_MODIFY_FUNC(AddValue, +);
 
-  throw Exception("type error");
+    throw Exception("type error");
 }
 
 Value TinyintType::Subtract(const Value &left, const Value &right) const {
-  assert(left.CheckInteger());
-  assert(left.CheckComparable(right));
-  if (left.IsNull() || right.IsNull())
-    return left.OperateNull(right);
+    assert(left.CheckInteger());
+    assert(left.CheckComparable(right));
+    if (left.IsNull() || right.IsNull())
+        return left.OperateNull(right);
 
-  TINYINT_MODIFY_FUNC(SubtractValue, -);
+    TINYINT_MODIFY_FUNC(SubtractValue, -);
 
-  throw Exception("type error");
+    throw Exception("type error");
 }
 
 Value TinyintType::Multiply(const Value &left, const Value &right) const {
-  assert(left.CheckInteger());
-  assert(left.CheckComparable(right));
-  if (left.IsNull() || right.IsNull())
-    return left.OperateNull(right);
+    assert(left.CheckInteger());
+    assert(left.CheckComparable(right));
+    if (left.IsNull() || right.IsNull())
+        return left.OperateNull(right);
 
-  TINYINT_MODIFY_FUNC(MultiplyValue, *);
+    TINYINT_MODIFY_FUNC(MultiplyValue, *);
 
-  throw Exception("type error");
+    throw Exception("type error");
 }
 
 Value TinyintType::Divide(const Value &left, const Value &right) const {
-  assert(left.CheckInteger());
-  assert(left.CheckComparable(right));
-  if (left.IsNull() || right.IsNull())
-    return left.OperateNull(right);
+    assert(left.CheckInteger());
+    assert(left.CheckComparable(right));
+    if (left.IsNull() || right.IsNull())
+        return left.OperateNull(right);
 
-  if (right.IsZero()) {
-    throw Exception(EXCEPTION_TYPE_DIVIDE_BY_ZERO,
-                    "Division by zero on right-hand side");
-  }
+    if (right.IsZero()) {
+        throw Exception(EXCEPTION_TYPE_DIVIDE_BY_ZERO,
+                        "Division by zero on right-hand side");
+    }
 
-  TINYINT_MODIFY_FUNC(DivideValue, /);
+    TINYINT_MODIFY_FUNC(DivideValue, /);
 
-  throw Exception("type error");
+    throw Exception("type error");
 }
 
 Value TinyintType::Modulo(const Value &left, const Value &right) const {
-  assert(left.CheckInteger());
-  assert(left.CheckComparable(right));
-  if (left.IsNull() || right.IsNull())
-    return left.OperateNull(right);
+    assert(left.CheckInteger());
+    assert(left.CheckComparable(right));
+    if (left.IsNull() || right.IsNull())
+        return left.OperateNull(right);
 
-  if (right.IsZero()) {
-    throw Exception(EXCEPTION_TYPE_DIVIDE_BY_ZERO,
-                    "Division by zero on right-hand side");
-  }
+    if (right.IsZero()) {
+        throw Exception(EXCEPTION_TYPE_DIVIDE_BY_ZERO,
+                        "Division by zero on right-hand side");
+    }
 
-  switch (right.GetTypeId()) {
-  case TypeId::TINYINT:
-    return ModuloValue<int8_t, int8_t>(left, right);
-  case TypeId::SMALLINT:
-    return ModuloValue<int8_t, int16_t>(left, right);
-  case TypeId::INTEGER:
-    return ModuloValue<int8_t, int32_t>(left, right);
-  case TypeId::BIGINT:
-    return ModuloValue<int8_t, int64_t>(left, right);
-  case TypeId::DECIMAL:
-    return Value(TypeId::DECIMAL,
-                 ValMod(left.value_.tinyint, right.GetAs<double>()));
-  case TypeId::VARCHAR: {
-    auto r_value = right.CastAs(TypeId::TINYINT);
-    return ModuloValue<int8_t, int8_t>(left, r_value);
-  }
-  default:
-    break;
-  }
+    switch (right.GetTypeId()) {
+        case TypeId::TINYINT:
+            return ModuloValue<int8_t, int8_t>(left, right);
+        case TypeId::SMALLINT:
+            return ModuloValue<int8_t, int16_t>(left, right);
+        case TypeId::INTEGER:
+            return ModuloValue<int8_t, int32_t>(left, right);
+        case TypeId::BIGINT:
+            return ModuloValue<int8_t, int64_t>(left, right);
+        case TypeId::DECIMAL:
+            return Value(TypeId::DECIMAL,
+                         ValMod(left.value_.tinyint, right.GetAs<double>()));
+        case TypeId::VARCHAR: {
+            auto r_value = right.CastAs(TypeId::TINYINT);
+            return ModuloValue<int8_t, int8_t>(left, r_value);
+        }
+        default:
+            break;
+    }
 
-  throw Exception("type error");
+    throw Exception("type error");
 }
 
 Value TinyintType::Sqrt(const Value &val) const {
-  assert(val.CheckInteger());
-  if (val.IsNull())
-    return Value(TypeId::DECIMAL, PELOTON_DECIMAL_NULL);
+    assert(val.CheckInteger());
+    if (val.IsNull())
+        return Value(TypeId::DECIMAL, PELOTON_DECIMAL_NULL);
 
-  if (val.value_.tinyint < 0) {
-    throw Exception(EXCEPTION_TYPE_DECIMAL,
-                    "Cannot take square root of a negative number.");
-  }
-  return Value(TypeId::DECIMAL, std::sqrt(val.value_.tinyint));
+    if (val.value_.tinyint < 0) {
+        throw Exception(EXCEPTION_TYPE_DECIMAL,
+                        "Cannot take square root of a negative number.");
+    }
+    return Value(TypeId::DECIMAL, std::sqrt(val.value_.tinyint));
 
-  throw Exception("type error");
+    throw Exception("type error");
 }
 
 Value TinyintType::OperateNull(const Value &left __attribute__((unused)),
                                const Value &right) const {
-  switch (right.GetTypeId()) {
-  case TypeId::TINYINT:
-    return Value(TypeId::TINYINT, (int8_t)PELOTON_INT8_NULL);
-  case TypeId::SMALLINT:
-    return Value(TypeId::SMALLINT, (int16_t)PELOTON_INT16_NULL);
-  case TypeId::INTEGER:
-    return Value(TypeId::INTEGER, (int32_t)PELOTON_INT32_NULL);
-  case TypeId::BIGINT:
-    return Value(TypeId::BIGINT, (int64_t)PELOTON_INT64_NULL);
-  case TypeId::DECIMAL:
-    return Value(TypeId::DECIMAL, (double)PELOTON_DECIMAL_NULL);
-  default:
-    break;
-  }
-  throw Exception("type error");
+    switch (right.GetTypeId()) {
+        case TypeId::TINYINT:
+            return Value(TypeId::TINYINT, (int8_t) PELOTON_INT8_NULL);
+        case TypeId::SMALLINT:
+            return Value(TypeId::SMALLINT, (int16_t) PELOTON_INT16_NULL);
+        case TypeId::INTEGER:
+            return Value(TypeId::INTEGER, (int32_t) PELOTON_INT32_NULL);
+        case TypeId::BIGINT:
+            return Value(TypeId::BIGINT, (int64_t) PELOTON_INT64_NULL);
+        case TypeId::DECIMAL:
+            return Value(TypeId::DECIMAL, (double) PELOTON_DECIMAL_NULL);
+        default:
+            break;
+    }
+    throw Exception("type error");
 }
 
 CmpBool TinyintType::CompareEquals(const Value &left,
                                    const Value &right) const {
-  assert(left.CheckInteger());
-  assert(left.CheckComparable(right));
+    assert(left.CheckInteger());
+    assert(left.CheckComparable(right));
 
-  if (left.IsNull() || right.IsNull())
-    return CMP_NULL;
+    if (left.IsNull() || right.IsNull())
+        return CMP_NULL;
 
-  TINYINT_COMPARE_FUNC(==);
+    TINYINT_COMPARE_FUNC(==);
 
-  throw Exception("type error");
+    throw Exception("type error");
 }
 
 CmpBool TinyintType::CompareNotEquals(const Value &left,
                                       const Value &right) const {
-  assert(left.CheckInteger());
-  assert(left.CheckComparable(right));
-  if (left.IsNull() || right.IsNull())
-    return CMP_NULL;
+    assert(left.CheckInteger());
+    assert(left.CheckComparable(right));
+    if (left.IsNull() || right.IsNull())
+        return CMP_NULL;
 
-  TINYINT_COMPARE_FUNC(!=);
+    TINYINT_COMPARE_FUNC(!=);
 
-  throw Exception("type error");
+    throw Exception("type error");
 }
 
 CmpBool TinyintType::CompareLessThan(const Value &left,
                                      const Value &right) const {
-  assert(left.CheckInteger());
-  assert(left.CheckComparable(right));
-  if (left.IsNull() || right.IsNull())
-    return CMP_NULL;
+    assert(left.CheckInteger());
+    assert(left.CheckComparable(right));
+    if (left.IsNull() || right.IsNull())
+        return CMP_NULL;
 
-  TINYINT_COMPARE_FUNC(<);
+    TINYINT_COMPARE_FUNC(<);
 
-  throw Exception("type error");
+    throw Exception("type error");
 }
 
 CmpBool TinyintType::CompareLessThanEquals(const Value &left,
                                            const Value &right) const {
-  assert(left.CheckInteger());
-  assert(left.CheckComparable(right));
-  if (left.IsNull() || right.IsNull())
-    return CMP_NULL;
+    assert(left.CheckInteger());
+    assert(left.CheckComparable(right));
+    if (left.IsNull() || right.IsNull())
+        return CMP_NULL;
 
-  TINYINT_COMPARE_FUNC(<=);
+    TINYINT_COMPARE_FUNC(<=);
 
-  throw Exception("type error");
+    throw Exception("type error");
 }
 
 CmpBool TinyintType::CompareGreaterThan(const Value &left,
                                         const Value &right) const {
-  assert(left.CheckInteger());
-  assert(left.CheckComparable(right));
-  if (left.IsNull() || right.IsNull())
-    return CMP_NULL;
+    assert(left.CheckInteger());
+    assert(left.CheckComparable(right));
+    if (left.IsNull() || right.IsNull())
+        return CMP_NULL;
 
-  TINYINT_COMPARE_FUNC(>);
+    TINYINT_COMPARE_FUNC(>);
 
-  throw Exception("type error");
+    throw Exception("type error");
 }
 
 CmpBool TinyintType::CompareGreaterThanEquals(const Value &left,
                                               const Value &right) const {
-  assert(left.CheckInteger());
-  assert(left.CheckComparable(right));
-  if (left.IsNull() || right.IsNull())
-    return CMP_NULL;
+    assert(left.CheckInteger());
+    assert(left.CheckComparable(right));
+    if (left.IsNull() || right.IsNull())
+        return CMP_NULL;
 
-  TINYINT_COMPARE_FUNC(>=);
+    TINYINT_COMPARE_FUNC(>=);
 
-  throw Exception("type error");
+    throw Exception("type error");
 }
 
 std::string TinyintType::ToString(const Value &val) const {
-  assert(val.CheckInteger());
-  if (val.IsNull())
-    return "tinyint_null";
-  return std::to_string(val.value_.tinyint);
+    assert(val.CheckInteger());
+    if (val.IsNull())
+        return "tinyint_null";
+    return std::to_string(val.value_.tinyint);
 }
 
 void TinyintType::SerializeTo(const Value &val, char *storage) const {
 
-  *reinterpret_cast<int8_t *>(storage) = val.value_.tinyint;
-  return;
+    *reinterpret_cast<int8_t *>(storage) = val.value_.tinyint;
+    return;
 }
 
 // Deserialize a value of the given type from the given storage space.
 Value TinyintType::DeserializeFrom(const char *storage) const {
-  int8_t val = *reinterpret_cast<const int8_t *>(storage);
-  return Value(type_id_, val);
+    int8_t val = *reinterpret_cast<const int8_t *>(storage);
+    return Value(type_id_, val);
 }
 
 Value TinyintType::Copy(const Value &val) const {
-  assert(val.CheckInteger());
-  return Value(TypeId::TINYINT, val.value_.tinyint);
+    assert(val.CheckInteger());
+    return Value(TypeId::TINYINT, val.value_.tinyint);
 }
 
 Value TinyintType::CastAs(const Value &val, const TypeId type_id) const {
 
-  switch (type_id) {
-  case TypeId::TINYINT: {
-    if (val.IsNull())
-      return Value(type_id, PELOTON_INT8_NULL);
-    return Copy(val);
-  }
-  case TypeId::SMALLINT: {
-    if (val.IsNull())
-      return Value(type_id, PELOTON_INT16_NULL);
-    return Value(type_id, (int16_t)val.GetAs<int8_t>());
-  }
-  case TypeId::INTEGER: {
-    if (val.IsNull())
-      return Value(type_id, PELOTON_INT32_NULL);
-    return Value(type_id, (int32_t)val.GetAs<int8_t>());
-  }
-  case TypeId::BIGINT: {
-    if (val.IsNull())
-      return Value(type_id, PELOTON_INT64_NULL);
-    return Value(type_id, (int64_t)val.GetAs<int8_t>());
-  }
-  case TypeId::DECIMAL: {
-    if (val.IsNull())
-      return Value(type_id, PELOTON_DECIMAL_NULL);
-    return Value(type_id, (double)val.GetAs<int8_t>());
-  }
-  case TypeId::VARCHAR: {
-    if (val.IsNull())
-      return Value(TypeId::VARCHAR, nullptr, 0, false);
-    return Value(TypeId::VARCHAR, val.ToString());
-  }
-  default:
-    break;
-  }
-  throw Exception("tinyint is not coercable to " +
-                  Type::TypeIdToString(type_id));
+    switch (type_id) {
+        case TypeId::TINYINT: {
+            if (val.IsNull())
+                return Value(type_id, PELOTON_INT8_NULL);
+            return Copy(val);
+        }
+        case TypeId::SMALLINT: {
+            if (val.IsNull())
+                return Value(type_id, PELOTON_INT16_NULL);
+            return Value(type_id, (int16_t) val.GetAs<int8_t>());
+        }
+        case TypeId::INTEGER: {
+            if (val.IsNull())
+                return Value(type_id, PELOTON_INT32_NULL);
+            return Value(type_id, (int32_t) val.GetAs<int8_t>());
+        }
+        case TypeId::BIGINT: {
+            if (val.IsNull())
+                return Value(type_id, PELOTON_INT64_NULL);
+            return Value(type_id, (int64_t) val.GetAs<int8_t>());
+        }
+        case TypeId::DECIMAL: {
+            if (val.IsNull())
+                return Value(type_id, PELOTON_DECIMAL_NULL);
+            return Value(type_id, (double) val.GetAs<int8_t>());
+        }
+        case TypeId::VARCHAR: {
+            if (val.IsNull())
+                return Value(TypeId::VARCHAR, nullptr, 0, false);
+            return Value(TypeId::VARCHAR, val.ToString());
+        }
+        default:
+            break;
+    }
+    throw Exception("tinyint is not coercable to " +
+                    Type::TypeIdToString(type_id));
 }
 } // namespace cmudb

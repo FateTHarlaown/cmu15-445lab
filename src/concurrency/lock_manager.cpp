@@ -7,19 +7,19 @@
 namespace cmudb {
 
 bool LockManager::LockShared(Transaction *txn, const RID &rid) {
-  return false;
+    return false;
 }
 
 bool LockManager::LockExclusive(Transaction *txn, const RID &rid) {
-  return false;
+    return false;
 }
 
 bool LockManager::LockUpgrade(Transaction *txn, const RID &rid) {
-  return false;
+    return false;
 }
 
 bool LockManager::Unlock(Transaction *txn, const RID &rid) {
-  return false;
+    return false;
 }
 
 } // namespace cmudb

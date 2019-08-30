@@ -10,7 +10,9 @@ namespace cmudb {
  * Page type enum class is defined in b_plus_tree_page.h
  */
 bool BPlusTreePage::IsLeafPage() const { return false; }
+
 bool BPlusTreePage::IsRootPage() const { return false; }
+
 void BPlusTreePage::SetPageType(IndexPageType page_type) {}
 
 /*
@@ -18,13 +20,16 @@ void BPlusTreePage::SetPageType(IndexPageType page_type) {}
  * page)
  */
 int BPlusTreePage::GetSize() const { return 0; }
+
 void BPlusTreePage::SetSize(int size) {}
+
 void BPlusTreePage::IncreaseSize(int amount) {}
 
 /*
  * Helper methods to get/set max size (capacity) of the page
  */
 int BPlusTreePage::GetMaxSize() const { return 0; }
+
 void BPlusTreePage::SetMaxSize(int size) {}
 
 /*
@@ -37,12 +42,14 @@ int BPlusTreePage::GetMinSize() const { return 0; }
  * Helper methods to get/set parent page id
  */
 page_id_t BPlusTreePage::GetParentPageId() const { return 0; }
+
 void BPlusTreePage::SetParentPageId(page_id_t parent_page_id) {}
 
 /*
  * Helper methods to get/set self page id
  */
 page_id_t BPlusTreePage::GetPageId() const { return 0; }
+
 void BPlusTreePage::SetPageId(page_id_t page_id) {}
 
 /*

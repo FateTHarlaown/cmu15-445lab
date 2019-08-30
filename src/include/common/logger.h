@@ -147,33 +147,33 @@ void outputLogHeader_(const char *file, int line, const char *func, int level);
 // ex: [ERROR] [somefile.cpp:123:doSome()] 2008/07/06 10:00:00 -
 inline void outputLogHeader_(const char *file, int line, const char *func,
                              int level) {
-  time_t t = ::time(NULL);
-  tm *curTime = localtime(&t);
-  char time_str[32]; // FIXME
-  ::strftime(time_str, 32, LOG_LOG_TIME_FORMAT, curTime);
-  const char *type;
-  switch (level) {
-  case LOG_LEVEL_ERROR:
-    type = "ERROR";
-    break;
-  case LOG_LEVEL_WARN:
-    type = "WARN ";
-    break;
-  case LOG_LEVEL_INFO:
-    type = "INFO ";
-    break;
-  case LOG_LEVEL_DEBUG:
-    type = "DEBUG";
-    break;
-  case LOG_LEVEL_TRACE:
-    type = "TRACE";
-    break;
-  default:
-    type = "UNKWN";
-  }
-  // PAVLO: DO NOT CHANGE THIS
-  ::fprintf(LOG_OUTPUT_STREAM, "%s [%s:%d:%s] %s - ", time_str, file, line,
-            func, type);
+    time_t t = ::time(NULL);
+    tm *curTime = localtime(&t);
+    char time_str[32]; // FIXME
+    ::strftime(time_str, 32, LOG_LOG_TIME_FORMAT, curTime);
+    const char *type;
+    switch (level) {
+        case LOG_LEVEL_ERROR:
+            type = "ERROR";
+            break;
+        case LOG_LEVEL_WARN:
+            type = "WARN ";
+            break;
+        case LOG_LEVEL_INFO:
+            type = "INFO ";
+            break;
+        case LOG_LEVEL_DEBUG:
+            type = "DEBUG";
+            break;
+        case LOG_LEVEL_TRACE:
+            type = "TRACE";
+            break;
+        default:
+            type = "UNKWN";
+    }
+    // PAVLO: DO NOT CHANGE THIS
+    ::fprintf(LOG_OUTPUT_STREAM, "%s [%s:%d:%s] %s - ", time_str, file, line,
+              func, type);
 }
 
 } // namespace cmudb

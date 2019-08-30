@@ -8,6 +8,7 @@
  */
 
 #pragma once
+
 #include <atomic>
 #include <fstream>
 #include <future>
@@ -19,35 +20,37 @@ namespace cmudb {
 
 class DiskManager {
 public:
-  DiskManager(const std::string &db_file);
-  ~DiskManager();
+    DiskManager(const std::string &db_file);
+    ~DiskManager();
 
-  void WritePage(page_id_t page_id, const char *page_data);
-  void ReadPage(page_id_t page_id, char *page_data);
+    void WritePage(page_id_t page_id, const char *page_data);
+    void ReadPage(page_id_t page_id, char *page_data);
 
-  void WriteLog(char *log_data, int size);
-  bool ReadLog(char *log_data, int size, int offset);
+    void WriteLog(char *log_data, int size);
+    bool ReadLog(char *log_data, int size, int offset);
 
-  page_id_t AllocatePage();
-  void DeallocatePage(page_id_t page_id);
+    page_id_t AllocatePage();
+    void DeallocatePage(page_id_t page_id);
 
-  int GetNumFlushes() const;
-  bool GetFlushState() const;
-  inline void SetFlushLogFuture(std::future<void> *f) { flush_log_f_ = f; }
-  inline bool HasFlushLogFuture() { return flush_log_f_ != nullptr; }
+    int GetNumFlushes() const;
+    bool GetFlushState() const;
+
+    inline void SetFlushLogFuture(std::future<void> *f) { flush_log_f_ = f; }
+
+    inline bool HasFlushLogFuture() { return flush_log_f_ != nullptr; }
 
 private:
-  int GetFileSize(const std::string &name);
-  // stream to write log file
-  std::fstream log_io_;
-  std::string log_name_;
-  // stream to write db file
-  std::fstream db_io_;
-  std::string file_name_;
-  std::atomic<page_id_t> next_page_id_;
-  int num_flushes_;
-  bool flush_log_;
-  std::future<void> *flush_log_f_;
+    int GetFileSize(const std::string &name);
+    // stream to write log file
+    std::fstream log_io_;
+    std::string log_name_;
+    // stream to write db file
+    std::fstream db_io_;
+    std::string file_name_;
+    std::atomic<page_id_t> next_page_id_;
+    int num_flushes_;
+    bool flush_log_;
+    std::future<void> *flush_log_f_;
 };
 
 } // namespace cmudb

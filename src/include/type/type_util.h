@@ -14,25 +14,25 @@ namespace cmudb {
  */
 class TypeUtil {
 public:
-  /**
-   * Use memcmp to evaluate two strings
-   * This does not work with VARBINARY attributes.
-   */
-  static inline int CompareStrings(const char *str1, int len1, const char *str2,
-                                   int len2) {
-    assert(str1 != nullptr);
-    assert(len1 >= 0);
-    assert(str2 != nullptr);
-    assert(len2 >= 0);
-    // PAVLO: 2017-04-04
-    // The reason why we use memcmp here is that our inputs are
-    // not null-terminated strings, so we can't use strncmp
-    int ret = memcmp(str1, str2, std::min(len1, len2));
-    if (ret == 0 && len1 != len2) {
-      ret = len1 - len2;
+    /**
+     * Use memcmp to evaluate two strings
+     * This does not work with VARBINARY attributes.
+     */
+    static inline int CompareStrings(const char *str1, int len1, const char *str2,
+                                     int len2) {
+        assert(str1 != nullptr);
+        assert(len1 >= 0);
+        assert(str2 != nullptr);
+        assert(len2 >= 0);
+        // PAVLO: 2017-04-04
+        // The reason why we use memcmp here is that our inputs are
+        // not null-terminated strings, so we can't use strncmp
+        int ret = memcmp(str1, str2, std::min(len1, len2));
+        if (ret == 0 && len1 != len2) {
+            ret = len1 - len2;
+        }
+        return ret;
     }
-    return ret;
-  }
 
 //  /**
 //   * Perform CompareEquals directly on raw pointers.
