@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include <list>
+#include <mutex>
 #include "buffer/replacer.h"
 #include "hash/extendible_hash.h"
 
@@ -17,6 +19,9 @@ namespace cmudb {
 template<typename T>
 class LRUReplacer : public Replacer<T> {
 public:
+    using LockGuard = std::lock_guard<std::mutex>;
+    using List = std::list<T>;
+    using ElementPtr = typename List::iterator;
     // do not change public interface
     LRUReplacer();
 
@@ -32,6 +37,10 @@ public:
 
 private:
     // add your member variables here
+    uint64_t size_;
+    std::mutex mu_;
+    std::list<T> list_;
+    ExtendibleHash<T, ElementPtr> hash_;
 };
 
 } // namespace cmudb
