@@ -20,6 +20,7 @@
 namespace cmudb {
 class BufferPoolManager {
 public:
+    using LockGuard = std::lock_guard<std::mutex>;
     BufferPoolManager(size_t pool_size, DiskManager *disk_manager,
                       LogManager *log_manager = nullptr);
 
